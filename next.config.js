@@ -1,7 +1,14 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
-    domains: ['picsum.photos', 'res.cloudinary.com', 'media2.dev.to', 'localhost', 'api.anggagumilang.my.id']
+    unoptimized: true,
+    domains: ['picsum.photos', 'res.cloudinary.com', 'media2.dev.to', 'localhost', 'api.anggagumilang.my.id'],
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'res.cloudinary.com'
+      }
+    ]
   },
   async rewrites() {
     return [
