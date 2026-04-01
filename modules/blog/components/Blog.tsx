@@ -1,18 +1,14 @@
 'use client'
 
-import { fetcher } from '@/services/fetcher'
 import clsx from 'clsx'
 import { motion } from 'framer-motion'
-import useSWR from 'swr'
 
 import EmptyState from '@/common/components/elements/EmptyState'
-import LoadingCard from '@/common/components/elements/LoadingCard'
-import { DEVTO_BLOG_API } from '@/common/constant'
+import { BLOGS } from '@/common/constant/blogs'
 import { BlogItem } from '@/common/types/blog'
 
-import { useBlogView } from '@/stores/blog-view'
-
 import useIsMobile from '@/hooks/useIsMobile'
+import { useBlogView } from '@/stores/blog-view'
 
 import BlogCard from './BlogCard'
 import BlogListHeader from './BlogListHeader'
@@ -20,27 +16,10 @@ import BlogListHeader from './BlogListHeader'
 export default function Blog() {
   const isMobile = useIsMobile()
   const { viewOption, setViewOption } = useBlogView()
-  const { data, isLoading } = useSWR(DEVTO_BLOG_API, fetcher, {
-    revalidateOnMount: true
-  })
 
-  const blogs: BlogItem[] = data?.filter((blog: BlogItem) => blog.collection_id === null)
+  const blogs: BlogItem[] = BLOGS
 
-  if (isLoading)
-    return (
-      <div
-        className={clsx(
-          'gap-5 sm:gap-4',
-          viewOption === 'list' || isMobile ? 'flex flex-col' : 'grid grid-cols-2 sm:!gap-5'
-        )}
-      >
-        {[1, 2].map(item => (
-          <LoadingCard key={item} view={viewOption} />
-        ))}
-      </div>
-    )
-
-  if (blogs.length === 0 && !isLoading) {
+  if (blogs.length === 0) {
     return <EmptyState message="No Data" />
   }
 
@@ -53,7 +32,7 @@ export default function Blog() {
           viewOption === 'list' || isMobile ? 'flex flex-col' : 'grid grid-cols-2 sm:!gap-5'
         )}
       >
-        {blogs?.map((item: BlogItem, index: number) => (
+        {blogs.map((item: BlogItem, index: number) => (
           <motion.div
             key={index}
             initial={{ opacity: 0, scale: 0.8 }}
