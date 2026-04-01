@@ -10,7 +10,7 @@ type ImageProps = {
 } & NextImageProps
 
 const Image = (props: ImageProps) => {
-  const { alt, src, className, rounded, ...rest } = props
+  const { alt, src, className, rounded, unoptimized, ...rest } = props
   const [isLoading, setLoading] = useState(true)
 
   return (
@@ -25,6 +25,7 @@ const Image = (props: ImageProps) => {
         src={src}
         alt={alt}
         loading="lazy"
+        unoptimized={unoptimized}
         quality={100}
         onLoadingComplete={() => setLoading(false)}
         {...rest}
