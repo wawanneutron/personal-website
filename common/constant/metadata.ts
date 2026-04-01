@@ -1,7 +1,7 @@
 export const METADATA = {
   creator: 'Wawan Setiawan',
-  description: 'Personal website, portfolio, blog, software engineer roadmap, programming tips of Angga',
-  keyword: 'Wawan Setiawan, programming tips, belajar laravel, belajar javascript',
+  description: 'Wawan Setiawan is a Frontend Engineer sharing portfolio projects, web development articles, JavaScript and TypeScript tips, and modern software engineering insights.',
+  keyword: 'Wawan Setiawan, Frontend Engineer, Web Developer, JavaScript, TypeScript, Next.js, Vue.js, portfolio, software engineering',
   authors: {
     name: 'Wawan Setiawan',
     url: process.env.DOMAIN
