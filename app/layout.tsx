@@ -10,8 +10,10 @@ import { soraSans } from '../common/styles/fonts'
 import ThemeProviderContext from '../stores/theme'
 import './globals.css'
 
+const SITE_URL = process.env.DOMAIN || 'https://hellowawansetiawan.my.id'
+
 export const metadata: Metadata = {
-  metadataBase: new URL(process.env.NODE_ENV === 'development' ? 'https://wawansetiawan.my.id' : process.env.DOMAIN || ''),
+  metadataBase: new URL(SITE_URL),
   description: METADATA.description,
   keywords: METADATA.keyword,
   creator: METADATA.creator,

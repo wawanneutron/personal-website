@@ -7,6 +7,8 @@ import ReaderPage from '@/common/components/elements/ReaderPage'
 import { BLOG_COMMENTS, getStaticBlogDetailBySlug } from '@/common/constant/blogs'
 import { METADATA } from '@/common/constant/metadata'
 
+const SITE_URL = process.env.DOMAIN || 'https://hellowawansetiawan.my.id'
+
 type Props = {
   params: { slug: string }
 }
@@ -34,7 +36,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     },
     keywords: blog.title,
     alternates: {
-      canonical: `${process.env.DOMAIN}/${blog.slug}`
+      canonical: `${SITE_URL}/${blog.slug}`
     }
   }
 }
