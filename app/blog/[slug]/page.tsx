@@ -47,7 +47,7 @@ export default async function BlogDetailPage({ params }: Props) {
   if (!blog) notFound()
 
   const comments = BLOG_COMMENTS[blog.id] || []
-  const pageViewCount = blog.total_views_count || 0
+  const pageViewCount = 0
 
   return (
     <>
