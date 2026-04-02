@@ -1,20 +1,26 @@
 import { Metadata } from 'next'
-
-import { getBlogDetail, getComments } from '@/services/blog'
-import { getBlogViews } from '@/services/view'
+import { notFound } from 'next/navigation'
 
 import BackButton from '@/common/components/elements/BackButton'
 import Container from '@/common/components/elements/Container'
 import ReaderPage from '@/common/components/elements/ReaderPage'
+import { BLOG_COMMENTS, getStaticBlogDetailBySlug } from '@/common/constant/blogs'
 import { METADATA } from '@/common/constant/metadata'
 
 type Props = {
-  params: { content: string }
-  searchParams: { [key: string]: string | string[] | undefined }
+  params: { slug: string }
 }
 
-export async function generateMetadata({ params, searchParams }: Props): Promise<Metadata> {
-  const blog = await getBlogDetail({ params, searchParams })
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const blog = getStaticBlogDetailBySlug(params.slug)
+
+  if (!blog) {
+    return {
+      title: `Blog ${METADATA.exTitle}`,
+      description: METADATA.description
+    }
+  }
+
   return {
     title: `${blog.title} ${METADATA.exTitle}`,
     description: blog.description,
@@ -33,10 +39,14 @@ export async function generateMetadata({ params, searchParams }: Props): Promise
   }
 }
 
-export default async function BlogDetailPage({ params, searchParams }: Props) {
-  const blog = await getBlogDetail({ params, searchParams })
-  const pageViewCount = await getBlogViews(searchParams.id as string)
-  const comments = await getComments(searchParams.id as string)
+export default async function BlogDetailPage({ params }: Props) {
+  const blog = getStaticBlogDetailBySlug(params.slug)
+
+  if (!blog) notFound()
+
+  const comments = BLOG_COMMENTS[blog.id] || []
+  const pageViewCount = blog.total_views_count || 0
+
   return (
     <>
       <Container data-aos="fade-up">

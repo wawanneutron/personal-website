@@ -6,7 +6,7 @@ import { TbMessage2 as CommentIcon } from 'react-icons/tb'
 import Card from '@/common/components/elements/Card'
 import Image from '@/common/components/elements/Image'
 import { PLACEHOLDER_URL } from '@/common/constant'
-import { formatBlogSlug, formatDate } from '@/common/helpers'
+import { formatDate } from '@/common/helpers'
 import clsxm from '@/common/libs/clsxm'
 import { BlogItem } from '@/common/types/blog'
 
@@ -19,7 +19,6 @@ interface BlogCardProps extends BlogItem {
 }
 
 export default function BlogCard({
-  id,
   title,
   cover_image,
   published_at,
@@ -32,8 +31,6 @@ export default function BlogCard({
 }: BlogCardProps) {
   const [viewOption, setViewOption] = useState<string>()
   const isMobile = useIsMobile()
-
-  const newSlug = formatBlogSlug(slug)
 
   const trimmedTitle = viewOption === 'grid' ? title.slice(0, 70) + (title.length > 70 ? '...' : '') : title
   const trimmedContent = description.slice(0, 100) + (description.length > 100 ? '...' : '')
@@ -48,7 +45,7 @@ export default function BlogCard({
   }, [isMobile, view])
 
   return (
-    <Link href={`/blog/${newSlug}?id=${id}&read-mode=true`}>
+    <Link href={`/blog/${slug}?read-mode=true`}>
       <Card
         className={clsxm(
           'flex items-center sm:flex-row gap-6 cursor-pointer border border-neutral-300 dark:border-neutral-800 dark:bg-neutral-800 lg:hover:scale-[102%] w-full',
