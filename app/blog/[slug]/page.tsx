@@ -1,27 +1,20 @@
 import { Metadata } from 'next'
-import { notFound } from 'next/navigation'
+
+import { getBlogDetail, getComments } from '@/services/blog'
+import { getBlogViews } from '@/services/view'
 
 import BackButton from '@/common/components/elements/BackButton'
 import Container from '@/common/components/elements/Container'
 import ReaderPage from '@/common/components/elements/ReaderPage'
-import { BLOG_COMMENTS, getStaticBlogDetailBySlug } from '@/common/constant/blogs'
 import { METADATA } from '@/common/constant/metadata'
-
-const SITE_URL = process.env.DOMAIN || 'https://hellowawansetiawan.my.id'
 
 type Props = {
   params: { slug: string }
+  searchParams: { [key: string]: string | string[] | undefined }
 }
 
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const blog = getStaticBlogDetailBySlug(params.slug)
-
-  if (!blog) {
-    return {
-      title: `Blog ${METADATA.exTitle}`,
-      description: METADATA.description
-    }
-  }
+export async function generateMetadata({ params, searchParams }: Props): Promise<Metadata> {
+  const blog = await getBlogDetail({ params, searchParams })
 
   return {
     title: `${blog.title} ${METADATA.exTitle}`,
@@ -36,18 +29,15 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     },
     keywords: blog.title,
     alternates: {
-      canonical: `${SITE_URL}/${blog.slug}`
+      canonical: `${process.env.DOMAIN}/blog/${params.slug}`
     }
   }
 }
 
-export default async function BlogDetailPage({ params }: Props) {
-  const blog = getStaticBlogDetailBySlug(params.slug)
-
-  if (!blog) notFound()
-
-  const comments = BLOG_COMMENTS[blog.id] || []
-  const pageViewCount = 0
+export default async function BlogDetailPage({ params, searchParams }: Props) {
+  const blog = await getBlogDetail({ params, searchParams })
+  const comments = await getComments(searchParams.id as string)
+  const pageViewCount = await getBlogViews(searchParams.id as string)
 
   return (
     <>

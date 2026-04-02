@@ -19,6 +19,7 @@ interface BlogCardProps extends BlogItem {
 }
 
 export default function BlogCard({
+  id,
   title,
   cover_image,
   published_at,
@@ -45,7 +46,7 @@ export default function BlogCard({
   }, [isMobile, view])
 
   return (
-    <Link href={`/blog/${slug}?read-mode=true`}>
+    <Link href={`/blog/${slug}?id=${id}&read-mode=true`}>
       <Card
         className={clsxm(
           'flex items-center sm:flex-row gap-6 cursor-pointer border border-neutral-300 dark:border-neutral-800 dark:bg-neutral-800 lg:hover:scale-[102%] w-full',

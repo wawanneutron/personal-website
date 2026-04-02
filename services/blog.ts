@@ -4,7 +4,7 @@ import { DEVTO_BLOG_API } from '@/common/constant'
 import { BlogDetailProps, BlogItem, CommentItemProps } from '@/common/types/blog'
 
 type Props = {
-  params: { content: string }
+  params?: { content?: string; slug?: string }
   searchParams: { [key: string]: string | string[] | undefined }
 }
 
