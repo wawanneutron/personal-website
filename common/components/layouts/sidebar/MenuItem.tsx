@@ -61,7 +61,13 @@ export default function MenuItem({ title, href, icon, onClick, className = '', c
   return isHashLink ? (
     <div className="cursor-pointer">{itemComponent()}</div>
   ) : (
-    <Link aria-label={title} tabIndex={0} href={href} target={isExternalUrl ? '_blank' : ''} onClick={handleClick}>
+    <Link
+      aria-label={title}
+      tabIndex={0}
+      href={href}
+      onClick={handleClick}
+      {...(isExternalUrl ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+    >
       {itemComponent()}
     </Link>
   )
