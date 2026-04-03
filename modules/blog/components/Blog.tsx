@@ -1,12 +1,10 @@
 'use client'
 
-import { fetcher } from '@/services/fetcher'
 import clsx from 'clsx'
 import { motion } from 'framer-motion'
-import useSWR from 'swr'
 
 import EmptyState from '@/common/components/elements/EmptyState'
-import { DEVTO_BLOG_API } from '@/common/constant'
+import { BLOGS } from '@/common/constant/blogs'
 import { BlogItem } from '@/common/types/blog'
 
 import useIsMobile from '@/hooks/useIsMobile'
@@ -18,21 +16,8 @@ import BlogListHeader from './BlogListHeader'
 export default function Blog() {
   const isMobile = useIsMobile()
   const { viewOption, setViewOption } = useBlogView()
-  const { data, isLoading } = useSWR(DEVTO_BLOG_API, fetcher, {
-    revalidateOnMount: true
-  })
 
-  const blogs: BlogItem[] = data || []
-
-  if (isLoading) {
-    return (
-      <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 sm:gap-4">
-        {[1, 2, 3, 4].map(item => (
-          <div key={item} className="h-[320px] animate-pulse rounded-xl bg-neutral-300 dark:bg-neutral-800" />
-        ))}
-      </div>
-    )
-  }
+  const blogs: BlogItem[] = BLOGS
 
   if (blogs.length === 0) {
     return <EmptyState message="No Data" />
